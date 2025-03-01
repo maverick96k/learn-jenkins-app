@@ -94,6 +94,14 @@ pipeline {
             }
         }
 
+        stage('Approval') {
+            steps {
+                timeout(2) {
+                    input message: 'Ready to Deloy?', ok: 'Yes, I am sure I want to deploy!'
+                }
+            }
+        }
+
         stage('Deploy prod') {
             agent {
                 docker {
@@ -135,6 +143,6 @@ pipeline {
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
-                }
+        }
     }
 }
